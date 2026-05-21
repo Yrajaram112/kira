@@ -1,0 +1,38 @@
+# Environment & secrets
+.env
+config/google_token.json
+config/google_credentials.json
+config/*.ppn
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Logs & data
+logs/
+memory/tasks.json
+*.log
+
+# Node / Electron
+ui/node_modules/
+ui/dist/
+ui/.next/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Whisper models (large, download separately)
+*.pt
+*.bin

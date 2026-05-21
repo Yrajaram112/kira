@@ -1,0 +1,66 @@
+# KIRA AI — Python Dependencies
+# Install: pip install -r requirements.txt
+
+# ── Core / AI ────────────────────────────────────────────────────
+anthropic>=0.34.0
+openai>=1.40.0
+langchain>=0.2.0
+langgraph>=0.1.0
+langchain-anthropic>=0.1.0
+
+# ── Voice — Wake word ────────────────────────────────────────────
+pvporcupine>=3.0.0
+pyaudio>=0.2.14
+
+# ── Voice — STT (Whisper) ────────────────────────────────────────
+openai-whisper>=20231117
+sounddevice>=0.4.6
+numpy>=1.24.0
+
+# ── Voice — TTS ──────────────────────────────────────────────────
+elevenlabs>=1.0.0
+pyttsx3>=2.90          # Fallback TTS (offline)
+
+# ── System control ───────────────────────────────────────────────
+pyautogui>=0.9.54
+pygetwindow>=0.0.9
+keyboard>=0.13.5
+screen-brightness-control>=0.23.0
+pycaw>=20230702        # Windows audio control
+
+# ── Browser automation ───────────────────────────────────────────
+playwright>=1.44.0
+
+# ── System tray ─────────────────────────────────────────────────
+pystray>=0.19.5
+Pillow>=10.0.0         # Required by pystray
+
+# ── Google APIs ──────────────────────────────────────────────────
+google-auth>=2.29.0
+google-auth-oauthlib>=1.2.0
+google-auth-httplib2>=0.2.0
+google-api-python-client>=2.131.0
+
+# ── Memory / Database ────────────────────────────────────────────
+psycopg2-binary>=2.9.9
+pgvector>=0.2.5
+sqlalchemy>=2.0.0
+
+# ── Web search / Weather ─────────────────────────────────────────
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+duckduckgo-search>=6.0.0
+
+# ── WebSocket server (UI bridge) ─────────────────────────────────
+websockets>=12.0
+
+# ── Utilities ────────────────────────────────────────────────────
+python-dotenv>=1.0.0
+pydantic>=2.7.0
+schedule>=1.2.0        # Timer management
+pywin32>=306           # Windows-specific APIs (Task Scheduler, etc.)
+
+# ── Testing ──────────────────────────────────────────────────────
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+pytest-mock>=3.14.0
