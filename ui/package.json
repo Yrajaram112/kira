@@ -1,0 +1,49 @@
+{
+  "name": "assistant-ui",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Electron + React + Three.js UI for the voice assistant.",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev:web": "vite",
+    "dev": "concurrently \"npm:dev:web\" \"wait-on http://localhost:5173 && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 NODE_ENV=development electron .\"",
+    "build:web": "vite build",
+    "build": "npm run build:web && electron-builder",
+    "lint": "echo \"(no lint configured)\""
+  },
+  "dependencies": {
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "three": "^0.165.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.0",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3",
+    "vite": "^5.3.0",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.assistant.ui",
+    "productName": "Assistant",
+    "directories": { "output": "out" },
+    "files": [
+      "dist/**",
+      "electron/**",
+      "package.json"
+    ],
+    "win": {
+      "target": ["nsis"],
+      "icon": "electron/tray-icon.png"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Assistant"
+    }
+  }
+}

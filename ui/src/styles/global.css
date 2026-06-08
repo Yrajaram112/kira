@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: #E6EDF3;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  overflow: hidden;
+  user-select: none;
+  -webkit-app-region: no-drag;
+}
+
+button { font-family: inherit; }
+
+/* The main shell uses one full-window column layout. */
+.shell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center,
+    rgba(20, 30, 45, 0.95) 0%,
+    rgba(13, 17, 23, 1.0) 70%,
+    rgba(0, 0, 0, 1.0) 100%);
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+}
+
+.drag-handle {
+  -webkit-app-region: drag;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 32px;
+  z-index: 10;
+}
+
+.title-buttons {
+  -webkit-app-region: no-drag;
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+  z-index: 11;
+}
+.title-buttons button {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #8B949E;
+  border-radius: 6px;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  font-size: 11px;
+  padding: 0;
+}
+.title-buttons button:hover {
+  color: #E6EDF3;
+  border-color: rgba(255,255,255,0.2);
+}
+
+.orb-container {
+  width: 320px;
+  height: 320px;
+  position: relative;
+  margin-top: 24px;
+  cursor: pointer;
+}
+
+.waveform-wrap {
+  width: 320px;
+  height: 56px;
+  margin-top: 6px;
+}
+
+.status-text {
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: #E6EDF3;
+  margin-top: 14px;
+  text-align: center;
+  min-height: 16px;
+  transition: opacity 200ms ease;
+}
+.status-text.dim { opacity: 0.5; }
+
+.task-log-overlay {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  background: rgba(13, 17, 23, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  max-height: 50%;
+  overflow-y: auto;
+  padding: 12px 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: #8B949E;
+  transition: transform 240ms ease;
+}
+.task-log-overlay.hidden {
+  transform: translateY(100%);
+}
+.task-log-entry {
+  display: flex;
+  gap: 10px;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.task-log-entry:last-child { border-bottom: none; }
+.task-log-icon { width: 18px; }
+.task-log-time { opacity: 0.6; }
+.task-log-text { color: #E6EDF3; flex: 1; }
+
+/* HUD overlay (tiny window) */
+.hud {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  background: rgba(13, 17, 23, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #E6EDF3;
+  font-family: 'Inter', sans-serif;
+}
+.hud .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 12px currentColor;
+  animation: hud-pulse 1.6s ease-in-out infinite;
+}
+.hud .label {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8B949E;
+}
+.hud .last-text {
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@keyframes hud-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(0.95); }
+  50%      { opacity: 1.0; transform: scale(1.15); }
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
