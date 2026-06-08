@@ -9,6 +9,10 @@ langgraph>=0.1.0
 langchain-anthropic>=0.1.0
 
 # ── Voice — Wake word ────────────────────────────────────────────
+# openWakeWord is the primary engine (no signup, on-device).
+openwakeword>=0.6.0
+onnxruntime>=1.17.0    # openWakeWord ONNX inference (Windows-friendly)
+# Porcupine is kept as an optional fallback. Safe to leave installed even when unused.
 pvporcupine>=3.0.0
 pyaudio>=0.2.14
 
@@ -57,8 +61,10 @@ websockets>=12.0
 # ── Utilities ────────────────────────────────────────────────────
 python-dotenv>=1.0.0
 pydantic>=2.7.0
-schedule>=1.2.0        # Timer management
-pywin32>=306           # Windows-specific APIs (Task Scheduler, etc.)
+pydantic-settings>=2.0.0  # Tool-arg validation via BaseModel
+tenacity>=8.0.0           # Retry decorators for Claude / Google calls
+schedule>=1.2.0           # Timer management
+pywin32>=306              # Windows-specific APIs (Task Scheduler, etc.)
 
 # ── Testing ──────────────────────────────────────────────────────
 pytest>=8.0.0

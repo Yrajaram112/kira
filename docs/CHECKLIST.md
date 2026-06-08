@@ -6,15 +6,22 @@
 
 ## PRE-BUILD (Before Phase 1)
 
-- [ ] Run Opus 4 with OPUS_ARCHITECTURE_PROMPT.md — save output to docs/ARCH_SPEC.md
-- [ ] Read the full arch spec — make sure you understand the state machine
+- [x] Run Opus 4 with OPUS_ARCHITECTURE_PROMPT.md — save output to docs/ARCH_SPEC.md
+- [ ] Read the full arch spec — make sure you understand the state machine (§2)
 - [ ] Create .env from .env.example, fill in: ANTHROPIC_API_KEY, ELEVENLABS_API_KEY
-- [ ] Download Porcupine keyword file for "hey kira" from picovoice.ai console
-- [ ] Test microphone works in Python: `python -c "import pyaudio; print('ok')"`
+- [ ] (Optional) Download Porcupine .ppn for "hey kira" from console.picovoice.ai —
+      ONLY if you get Picovoice access. Default wake engine is openWakeWord with the
+      built-in "hey_jarvis" model (no signup, no .ppn file needed). To use Porcupine
+      later, flip `WAKE_ENGINE = "porcupine"` in config/settings.py and fill
+      `PORCUPINE_ACCESS_KEY` in .env.
 - [ ] Confirm Python 3.11 installed: `python --version`
-- [ ] Create virtual environment and activate it
+- [ ] Create virtual environment and activate it: `python -m venv .venv` then
+      `.\.venv\Scripts\Activate.ps1`
+- [ ] Install dependencies: `pip install -r requirements.txt`
+      (openWakeWord weights are pulled at first run — no manual download)
+- [ ] Test microphone works in Python: `python -c "import pyaudio; print('ok')"`
 - [ ] Create GitHub repo: kira-ai (private for now)
-- [ ] First commit: directory structure + config/identity.py only
+- [ ] First commit: scaffold + docs/ARCH_SPEC.md + corrected config
 
 ---
 
@@ -26,10 +33,12 @@
 - [ ] main.py runs without import errors
 
 ### Wake word
-- [ ] Porcupine initialises without error
-- [ ] "Hey Kira" triggers callback reliably (test 10 times)
+- [ ] Active wake engine (openWakeWord by default) initialises without error
+- [ ] Configured wake phrase triggers callback reliably (test 10 times)
+      — say "hey jarvis" with the default `OPENWW_MODEL = "hey_jarvis"`,
+      or "hey kira" if you've switched to Porcupine with a custom .ppn
 - [ ] False activations are rare (less than 1 per 10 minutes of background noise)
-- [ ] CPU usage in IDLE state is under 2%
+- [ ] CPU usage in IDLE state is under 5% (openWakeWord) or under 2% (Porcupine)
 
 ### Voice input
 - [ ] Recording starts immediately after wake word

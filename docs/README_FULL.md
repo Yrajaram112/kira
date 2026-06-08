@@ -22,7 +22,7 @@ kira-ai/
 │   └── ws_server.py         ← WebSocket server for Electron UI (Phase 4)
 │
 ├── voice/
-│   ├── wake.py              ← Porcupine wake word detector ("Hey Kira")
+│   ├── wake.py              ← Wake-word detector (openWakeWord default, Porcupine optional)
 │   ├── listen.py            ← Records audio after wake word
 │   ├── transcribe.py        ← Whisper STT (local, private)
 │   └── speak.py             ← ElevenLabs TTS with pyttsx3 fallback
@@ -140,9 +140,16 @@ To rename KIRA to anything else:
 
 1. Open `config/identity.py`
 2. Change `ASSISTANT_NAME = "Kira"` to your new name
-3. Change `ASSISTANT_WAKE_WORD = "hey kira"` to match
-4. Download the matching Porcupine keyword file for your new wake word
-5. Done. Every module reads from this file.
+3. Change `ASSISTANT_WAKE_WORD` to the phrase you'll actually say
+4. Make the wake word match the engine:
+   - **openWakeWord (default)** — set `OPENWW_MODEL` in `config/settings.py` to one of
+     the built-ins (`hey_jarvis`, `alexa`, `hey_mycroft`, `hey_rhasspy`, `ok_nabu`) or to
+     a custom `.tflite` you trained at
+     [github.com/dscripka/openWakeWord](https://github.com/dscripka/openWakeWord).
+   - **Porcupine (optional)** — flip `WAKE_ENGINE = "porcupine"` in
+     `config/settings.py`, drop your `.ppn` keyword file into `config/`, and set
+     `PORCUPINE_ACCESS_KEY` in `.env`.
+5. Done. Every module reads from `identity.py` + `settings.py`.
 
 ---
 
@@ -153,6 +160,6 @@ To rename KIRA to anything else:
 | Whisper STT       | Free         | Runs locally, fully private    |
 | ElevenLabs TTS    | $5/mo        | Starter plan, beautiful voice  |
 | Claude Sonnet API | ~$8–15/mo    | ~50 commands/day               |
-| Porcupine         | Free         | Free tier, one wake word       |
+| Wake word         | Free         | openWakeWord (default, on-device, no signup) or Porcupine (optional) |
 | PostgreSQL        | Free         | Local Docker                   |
 | **Total**         | **$13–20/mo**|                                |

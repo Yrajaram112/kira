@@ -19,11 +19,26 @@ Build exactly these files, nothing more:
 **config/settings.py** — all API keys, model names, audio settings, timeouts as constants
 
 **voice/wake.py**
-- Class `WakeWordDetector`
-- Uses Porcupine to listen for the wake word defined in `ASSISTANT_WAKE_WORD`
-- Runs in a background thread
-- Emits a callback when wake word detected
-- Graceful start/stop
+- Class `WakeWordDetector(on_wake: Callable[[], None])`
+- Engine-pluggable façade. Reads `settings.WAKE_ENGINE` and instantiates one of:
+  - `_OpenWakeWordBackend` (default; uses `openwakeword.Model` with
+    `inference_framework=settings.OPENWW_INFER_FW`, model name = `settings.OPENWW_MODEL`,
+    detection threshold = `settings.OPENWW_THRESHOLD`). No API key required.
+  - `_PorcupineBackend` (only constructed when `WAKE_ENGINE == "porcupine"`; uses
+    `pvporcupine.create(access_key=settings.PORCUPINE_ACCESS_KEY,
+    keyword_paths=[settings.PORCUPINE_KEYWORD_PATH], sensitivities=[WAKE_SENSITIVITY])`).
+    Missing access key is NOT a startup failure unless this engine is active.
+- Both backends share the same internal contract: `frame_length` (samples per inference),
+  `process(pcm: np.ndarray) -> bool`. The façade owns the PyAudio input stream and feeds
+  frames of the right size to the active backend.
+- Runs in a daemon thread.
+- Emits the `on_wake` callback via a thread-safe queue (not directly from the audio thread).
+- Applies `WAKE_COOLDOWN_SEC` debounce after each detection.
+- Re-initializes the backend on three consecutive errors; logs and survives.
+- Graceful `start()` / `stop()`.
+- For Phase 1, the default `WAKE_ENGINE="openwakeword"` and `OPENWW_MODEL="hey_jarvis"`
+  are sufficient — no model download or training required, the openWakeWord package
+  ships the weights.
 
 **voice/listen.py**
 - Class `VoiceListener`
